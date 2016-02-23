@@ -1,4 +1,8 @@
-## How-to
+## Pre-reqs
+1. Tesseract
+2. OpenCV
+
+## How-to build and run
 
     CMake .
     make
