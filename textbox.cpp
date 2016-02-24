@@ -50,6 +50,7 @@ int main(int argc,char** argv)
     }
 
     // all grayscaling here
+    // asserts should have been compile time errors
     cv::threshold(img1,img1,200,255,cv::THRESH_BINARY);
     cv::cvtColor( img1, img1, CV_BGR2GRAY );
 

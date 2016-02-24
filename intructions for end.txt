@@ -1,0 +1,4 @@
+after cropping the columns of pdf
+
+convert -density 300 even.pdf fdd-%02d2.png
+convert -density 300 odd.pdf fdd-%02d1.png

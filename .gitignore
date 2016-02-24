@@ -41,3 +41,4 @@ install_manifest.txt
 
 testdocs/*
 TextBox
+*.DS_Store
