@@ -1,6 +1,10 @@
-after cropping the columns of pdf
+* cropping the columns of pdf
+* name the cropped columns 1, 2, 3... etc
 
-this is for two columns ofc
 
-convert -density 300 odd.pdf fdd-%02d1.png
-convert -density 300 even.pdf fdd-%02d2.png
+convert -density 300 1.pdf nameOfTest-%02d1.png
+convert -density 300 2.pdf nameOfTest-%02d2.png
+convert -density 300 3.pdf nameOfTest-%02d3.png
+...
+
+* after this, run the Automator process fromEnd

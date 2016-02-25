@@ -2,8 +2,9 @@ from subprocess import Popen, PIPE
 from os import listdir
 from os.path import isfile, join
 import re
+import sys
 
-path = "testdocs/fem"
+path = sys.argv[1]
 offset = 0
 
 f1 = open(join(path,"cevaplar.txt"), 'w+')
@@ -13,7 +14,7 @@ print onlyfiles
 
 for x in onlyfiles:
 	
-	process = Popen(["TextBox", x], stdout=PIPE)
+	process = Popen(["/usr/local/bin/TextBox", x], stdout=PIPE)
 	(output, err) = process.communicate()
 	exit_code = process.wait()
 	stripped = output.strip()

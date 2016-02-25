@@ -2,8 +2,9 @@ from subprocess import Popen, PIPE
 from os import listdir
 from os.path import isfile, join
 import re
+import sys
 
-path = "testdocs/fdd"
+path = sys.argv[1]
 offset = 0
 
 f1 = open(join(path,"cevaplar.txt"), 'w+')
@@ -13,12 +14,12 @@ print onlyfiles
 
 for x in onlyfiles:
 
-	process = Popen(["tesseract", x, "stdout", "-psm", "6", "-l", "tst"], stdout=PIPE)
+	process = Popen(["/usr/local/bin/tesseract", x, "stdout", "-psm", "6", "-l", "tst"], stdout=PIPE)
 	(output, err) = process.communicate()
 	exit_code = process.wait()
 	stripped = output.strip()
 
-	if stripped == "The page does not contain answers" or stripped == "Cannot open source image!" or stripped == "":
+	if stripped == "":
 		continue
 	else:
 		stripped = stripped.upper()
