@@ -4,7 +4,7 @@ from os.path import isfile, join
 import re
 import sys
 
-path = sys.argv[1]
+path = "testdocs/fdd"
 offset = 0
 
 f1 = open(join(path,"cevaplar.txt"), 'w+')
@@ -34,8 +34,18 @@ for x in onlyfiles:
 		stripped = re.sub("[-\xe2]", ".", stripped)
 		stripped = re.sub("\.", ". ", stripped)
 		stripped = re.sub("[^A-ETS0-9\. \s\t]","",stripped)
+		# fix the misread (T)EST
 		stripped = re.sub("T\.","T -", stripped)
 		stripped = re.sub(r"\bEST","TEST", stripped)
+		# clean misadded tabs
+		stripped = re.sub(r"\t(?=[A-ES])","", stripped)
+		# sinav clean SECENEKLER, add test numbers if not provided
+		stripped = re.sub("SE+\n","", stripped)
+		if stripped[0] == "1":
+			stripped = "TEST - num0\n" + stripped
+		# adaptation for any length columns
+		stripped = re.sub("\n(?!1\.|T)","\t", stripped)
+		stripped = re.sub("\t(?=[0-9](6|1)|6)","\n", stripped)
 
 	print >>f1, stripped
 	print "Page %d imported" % (offset)

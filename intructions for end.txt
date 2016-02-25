@@ -2,9 +2,9 @@
 * name the cropped columns 1, 2, 3... etc
 
 
-convert -density 300 1.pdf nameOfTest-%02d1.png
-convert -density 300 2.pdf nameOfTest-%02d2.png
-convert -density 300 3.pdf nameOfTest-%02d3.png
+convert -density 300 1.pdf nameOfTest-%03d1.png
+convert -density 300 2.pdf nameOfTest-%03d2.png
+convert -density 300 3.pdf nameOfTest-%03d3.png
 ...
 
 * after this, run the Automator process fromEnd
