@@ -9,7 +9,7 @@ offset = 0
 
 f1 = open(join(path,"cevaplar.txt"), 'w+')
 
-onlyfiles = [join(path, f) for f in listdir(path) if isfile(join(path, f)) and f.endswith(".png")]
+onlyfiles = sorted([join(path, f) for f in listdir(path) if isfile(join(path, f)) and f.endswith(".png")])
 print onlyfiles
 
 for x in onlyfiles:
