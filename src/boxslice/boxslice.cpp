@@ -30,7 +30,6 @@ string randomStrGen(int length) {
     string result;
     result.resize(length);
 
-
     for (int i = 0; i < length; i++)
         result[i] = charset[rand() % charset.length()];
 
@@ -128,9 +127,9 @@ static void findSquares( const Mat& image, vector<Rect>& squares )
                     if( maxCosine < 0.3 )
                     {
                         Point tl;
-			Point br;
+                        Point br;
                         int min;
-			int max;
+                        int max;
                         min = 2000000;
                         max = 0;
                         for(int j = 0; j<5; j++)
@@ -170,6 +169,8 @@ static void drawSquares( Mat& image, const vector<vector<Point> >& squares )
 
 int main(int argc, char** argv)
 {
+    srand ( time(NULL) );
+
     // Usage: tesscv image.png
     if (argc != 2)
     {
@@ -190,11 +191,20 @@ int main(int argc, char** argv)
     vector<Rect> squares;
 
     findSquares(img1, squares);
+
+    int maxarea = 0;
+    int p;
     
     for(int i = 0; i< squares.size(); i++)
     {
-        imwrite(FilePath+randomStrGen(7)+".png",img1(squares[1]));
+        if(square[i].height*square[i].width > max)
+        {
+            maxarea = square[i].height*square[i].width;
+            p = i;
+        }
     }
 
+    // expecting 160 files
+    imwrite(FilePath+randomStrGen(7)+".png",img1(squares[p]));
     return 0;
 }
