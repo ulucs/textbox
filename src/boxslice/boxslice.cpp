@@ -127,8 +127,10 @@ static void findSquares( const Mat& image, vector<Rect>& squares )
                     // vertices to resultant sequence
                     if( maxCosine < 0.3 )
                     {
-                        Point tl, br
-                        int min, max
+                        Point tl;
+			Point br;
+                        int min;
+			int max;
                         min = 2000000;
                         max = 0;
                         for(int j = 0; j<5; j++)
@@ -163,7 +165,6 @@ static void drawSquares( Mat& image, const vector<vector<Point> >& squares )
         polylines(image, &p, &n, 1, true, Scalar(0,255,0), 3, LINE_AA);
     }
 
-    imshow(wndname, image);
 }
 
 
@@ -184,11 +185,11 @@ int main(int argc, char** argv)
         return -1;
     }
 
-    string FilePath = "/usr/ulucs/textBoxFiles/filedRectangles/rectangle";
+    string FilePath = "/home/ulucs/textBoxFiles/filedRectangles/rectangle";
 
     vector<Rect> squares;
 
-    findSquares(image, squares);
+    findSquares(img1, squares);
     
     for(int i = 0; i< squares.size(); i++)
     {
