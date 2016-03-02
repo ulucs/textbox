@@ -1,0 +1,5 @@
+cmake_minimum_required(VERSION 2.8)
+project( boxslice )
+find_package( OpenCV REQUIRED )
+add_executable( boxslice boxslice.cpp )
+target_link_libraries( boxslice ${OpenCV_LIBS} )
