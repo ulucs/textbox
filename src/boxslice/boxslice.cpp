@@ -191,20 +191,10 @@ int main(int argc, char** argv)
     vector<Rect> squares;
 
     findSquares(img1, squares);
-
-    int maxarea = 0;
-    int p;
     
     for(int i = 0; i< squares.size(); i++)
-    {
-        if(square[i].height*square[i].width > max)
-        {
-            maxarea = square[i].height*square[i].width;
-            p = i;
-        }
-    }
+        imwrite(FilePath+randomStrGen(7)+".png",img1(squares[i]));
 
     // expecting 160 files
-    imwrite(FilePath+randomStrGen(7)+".png",img1(squares[p]));
     return 0;
 }
