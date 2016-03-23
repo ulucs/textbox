@@ -13,26 +13,32 @@ onlyfiles = sorted([join(path, f) for f in listdir(path) if isfile(join(path, f)
 print onlyfiles
 
 for x in onlyfiles:
-	
-	process = Popen(["/usr/local/bin/selecttext", x], stdout=PIPE)
+	process = Popen(["/usr/local/bin/layoutfit", x], stdout=PIPE)
 	(output, err) = process.communicate()
 	exit_code = process.wait()
 	stripped = output.strip()
 
+	if stripped == "Nothing cropped!":
+		continue
+	else:
+		cropvars = stripped.split(" ")
+		break
+
+for x in onlyfiles:
+
+	prargs = ["/usr/local/bin/layoutcrop", x]
+	prargs.extend(cropvars)
+
+	process = Popen(prargs, stdout=PIPE)
+	(output, err) = process.communicate()
+	exit_code = process.wait()
+	stripped = output.strip()
+
+	offset += 1
 	if stripped == "" or stripped == "Cropped part is empty":
 		continue
 	else:
 		stripped = stripped.upper()
-		offset += 1
-		if stripped[0] != "1":
-			stripped = stripped[1:]
-		# pure stylistic changes to fit the format
-		# regex helps us to preserve the generalness
-		# and in this situation speed doesn't matter as much
-		stripped = re.sub(" ", "\t", stripped)
-		stripped = re.sub("[-\xe2]", ".", stripped)
-		stripped = re.sub("^\.","1.",stripped)
-		stripped = re.sub("\.", ". ", stripped)
 
 		print >>f1, stripped
-		print "Test %d imported" % (offset)
+		print "Page %d imported" % (offset)

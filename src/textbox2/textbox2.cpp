@@ -6,6 +6,22 @@
 #include <fstream>
 #include <cstring>
 
+void shrinkShow(cv::Mat img)
+{
+    cv::Mat viewimg;
+    int viewHeight = 760;
+    double shrinkBy = (double) viewHeight / img.rows;
+
+    if (shrinkBy < 1)
+        cv::resize(img, viewimg, cv::Size(), shrinkBy, shrinkBy);
+    else
+        viewimg = img;
+
+    cv::imshow("Original",viewimg);
+    cv::waitKey(0);
+    return;
+}
+
 std::vector<cv::Rect> detectLetters(cv::Mat img)
 {
     std::vector<cv::Rect> boundRect;
@@ -13,10 +29,10 @@ std::vector<cv::Rect> detectLetters(cv::Mat img)
     // put in already grayed image
     // cvtColor(img, img_gray, CV_BGR2GRAY);
     cv::Sobel(img, img_sobel, CV_8U, 1, 0, 3, 1, 0, cv::BORDER_DEFAULT);
-    cv::threshold(img_sobel, img_threshold, 0, 255, CV_THRESH_OTSU);
+    cv::threshold(img_sobel, img_threshold, 0, 255, CV_THRESH_OTSU+CV_THRESH_BINARY);
     // we should calibrate the size numbers according to our scan size
     // this supposedly works with 300 ppi
-    element = getStructuringElement(cv::MORPH_RECT, cv::Size(80, 5) );
+    element = getStructuringElement(cv::MORPH_RECT, cv::Size(180, 5) );
     cv::morphologyEx(img_threshold, img_threshold, CV_MOP_CLOSE, element); //Does the trick
     std::vector< std::vector< cv::Point> > contours;
     cv::findContours(img_threshold, contours, 0, 1); 
@@ -63,9 +79,9 @@ int main(int argc,char** argv)
     {
         // record the ratio of width and length of the bounding box
         // with at least 20 height (so we include characters)
-        if (letterBBoxes1[i].width > cmax && letterBBoxes1[i].height > 20 && letterBBoxes1[i].x > img1.rows/2)
+        if (letterBBoxes1[i].y > cmax && letterBBoxes1[i].height*letterBBoxes1[i].width > 200)
         {
-            cmax = letterBBoxes1[i].width;
+            cmax = letterBBoxes1[i].y;
             p = i;
         }
     }
@@ -75,14 +91,14 @@ int main(int argc,char** argv)
 
     // check if widest box is larger than half of the page
     // exit if it is not
-    if (letterBBoxes1[p].width < img1.cols/2)
+    if (letterBBoxes1[p].width < img1.cols/4)
     {
         std::cout << "The page does not contain answers" << std::endl;
         return 0;
     }
 
     // or crop the widest box
-    cv::Mat imgbox = img1(letterBBoxes1[p]);
+    cv::Mat imgbox = img1(cv::Rect(letterBBoxes1[p].x-40,letterBBoxes1[p].y,letterBBoxes1[p].width+80,letterBBoxes1[p].height));
 
     // // crop to delete sides
     // cv::Rect roi1 = cv::Rect(10,0,letterBBoxes1[p].width-20,letterBBoxes1[p].height);
@@ -108,10 +124,12 @@ int main(int argc,char** argv)
     // identify the bounding rectangle
     // start typing here
     cv::Mat gray;
+    cv::threshold(imgbox, imgbox, 0, 255, CV_THRESH_OTSU);
 
     // goodbye noise (works for 300 ppi)
     cv::fastNlMeansDenoising(imgbox,gray,17);
-    
+    // shrinkShow(gray);
+
     // pass the image to tesseract
     tesseract::TessBaseAPI tess;
     tess.Init(NULL, "tst", tesseract::OEM_DEFAULT);

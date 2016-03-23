@@ -14,12 +14,12 @@ print onlyfiles
 
 for x in onlyfiles:
 	
-	process = Popen(["/usr/local/bin/selecttext", x], stdout=PIPE)
+	process = Popen(["/usr/local/bin/textbox2", x], stdout=PIPE)
 	(output, err) = process.communicate()
 	exit_code = process.wait()
 	stripped = output.strip()
 
-	if stripped == "" or stripped == "Cropped part is empty":
+	if stripped == "The page does not contain answers" or stripped == "Cannot open source image!" or stripped == "":
 		continue
 	else:
 		stripped = stripped.upper()
@@ -34,5 +34,6 @@ for x in onlyfiles:
 		stripped = re.sub("^\.","1.",stripped)
 		stripped = re.sub("\.", ". ", stripped)
 
+		print >>f1, "TEST?"
 		print >>f1, stripped
-		print "Test %d imported" % (offset)
+		print "Page %d imported" % (offset)

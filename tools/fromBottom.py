@@ -14,7 +14,7 @@ print onlyfiles
 
 for x in onlyfiles:
 	
-	process = Popen(["/usr/local/bin/TextBox", x], stdout=PIPE)
+	process = Popen(["/usr/local/bin/textbox2", x], stdout=PIPE)
 	(output, err) = process.communicate()
 	exit_code = process.wait()
 	stripped = output.strip()
@@ -29,12 +29,12 @@ for x in onlyfiles:
 		# pure stylistic changes to fit the format
 		# regex helps us to preserve the generalness
 		# and in this situation speed doesn't matter as much
-		stripped = re.sub(" ", "\t", stripped)
-		stripped = re.sub("[-\xe2]", ".", stripped)
-		stripped = re.sub("^\.","1.",stripped)
-		stripped = re.sub("\.", ". ", stripped)
-		stripped = re.sub("[^A-ETS0-9\. \s\t]","",stripped)
-		stripped = re.sub("\t(?=[0-9]1|[1-9]6|6)","\n",stripped)
+		# stripped = re.sub(" ", "\t", stripped)
+		# stripped = re.sub("[-\xe2]", ".", stripped)
+		# stripped = re.sub("^\.","1.",stripped)
+		# stripped = re.sub("\.", ". ", stripped)
+		# stripped = re.sub("[^A-ETS0-9\. \s\t]","",stripped)
+		# stripped = re.sub("\t(?=[0-9]1|[1-9]6|6)","\n",stripped)
 
 		print >>f1, "TEST - %d" % (offset)
 		print >>f1, stripped

@@ -106,6 +106,12 @@ int main(int argc,char** argv)
 
 	destroyAllWindows();
 
+	if (crop.empty())
+	{
+		cout << "Cropped part is empty" << endl;
+		return 0;
+	}
+
 	fastNlMeansDenoising(crop,crop,17);
 	cvtColor( crop, crop, CV_BGR2GRAY );
 	// adaptiveThreshold(crop,crop,255, ADAPTIVE_THRESH_GAUSSIAN_C, THRESH_BINARY_INV, 25, 0);
