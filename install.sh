@@ -1,3 +1,4 @@
+#!/bin/bash
 mkdir src/textbox/build
 pushd src/textbox/build; cmake ..; make; popd
 sudo cp src/textbox/build/TextBox /usr/local/bin

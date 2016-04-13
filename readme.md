@@ -1,3 +1,13 @@
+## Quick Start
+
+Just paste this into terminal
+
+	cd ~ && /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)" && brew install homebrew/science/opencv --without-python && brew install tesseract && brew install cmake && brew install imagemagick && cd Desktop && git clone https://github.com/ulucs/textbox && pushd textbox && ./install.sh && cp /tst/tst.traineddata /usr/local/Cellar/tesseract/3.04.01_1/share/tessdata/tst.traineddata && popd
+
+## How to run
+
+1. Open the 
+
 ## Pre-reqs
 
 1. Tesseract
@@ -6,10 +16,8 @@
 ## How to install pre-reqs
 
 	brew tap brew/science
-	brew install opencv
+	brew install opencv --without-python
 	brew install tesseract
-
-Opencv might take a very long time to build in the "making bootstrap step"
 
 ## How-to build and run
 
