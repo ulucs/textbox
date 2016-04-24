@@ -2,6 +2,7 @@
 
 Just paste this into terminal
 
+	brew tap ulucs/tap
 	brew install ulucs/tap/textbox
 
 ## How to run
